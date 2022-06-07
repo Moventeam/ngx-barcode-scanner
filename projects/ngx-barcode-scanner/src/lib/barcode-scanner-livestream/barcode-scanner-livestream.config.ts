@@ -12,6 +12,10 @@ export const DEFAULT_CONFIG: QuaggaJSConfigObject = {
       aspectRatio: { min: 1, max: 2 },
       facingMode: 'environment', // or user
     },
+    area: {
+      top: '25%',
+      bottom: '25%',
+    },
     singleChannel: false, // true: only the red color-channel is read
   },
   locator: {

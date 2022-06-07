@@ -1,4 +1,3 @@
-// Quagga may have a dependency on the name of the property _row
 import { ImageWrapper } from '@ericblade/quagga2';
 import jsQR, { QRCode } from 'jsqr';
 import { ScanFormat } from '../../enums/ScanFormat.enum';
@@ -46,7 +45,6 @@ class QrCodeReader {
             decodedCodes: [],
           },
           line: this.calcLine(result.location),
-          boxes: [this.calcBox(result.location)],
         },
         result
       );
@@ -76,15 +74,6 @@ class QrCodeReader {
     };
 
     return [p1, p2];
-  }
-
-  private calcBox(location: QRCode['location']) {
-    return [
-      [location.topLeftCorner.x, location.topLeftCorner.y],
-      [location.topRightCorner.x, location.topRightCorner.y],
-      [location.bottomRightCorner.x, location.bottomRightCorner.y],
-      [location.bottomLeftCorner.x, location.bottomLeftCorner.y],
-    ];
   }
 }
 

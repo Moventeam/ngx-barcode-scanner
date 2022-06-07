@@ -17,6 +17,7 @@ import defaultsDeep from 'lodash.defaultsdeep';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { mapToReader } from '../helper';
+import DataMatrixReader from '../readers/DataMatrixReader';
 import QrCodeReader from '../readers/QrCodeReader';
 import { DEFAULT_CONFIG } from './barcode-scanner-livestream.config';
 
@@ -130,12 +131,11 @@ export class BarcodeScannerLivestreamComponent implements OnChanges, OnDestroy {
 
   private _init(): Promise<void> {
     return new Promise((resolve, reject) => {
-      Quagga.onProcessed((result) => this.onProcessed(result));
-
       Quagga.onDetected((result) => this.onDetected(result));
 
       // External Readers
       Quagga.registerReader('qr_code_reader', QrCodeReader);
+      Quagga.registerReader('datamatrix_reader', DataMatrixReader);
 
       this.configQuagga = defaultsDeep({}, this.config, DEFAULT_CONFIG);
 
@@ -173,9 +173,33 @@ export class BarcodeScannerLivestreamComponent implements OnChanges, OnDestroy {
     if (!this._started) {
       await this._init();
       Quagga.start();
+      this.drawRedLine();
       this._started = true;
       this.started.next(true);
     }
+  }
+
+  drawRedLine() {
+    const drawingCtx = Quagga.canvas.ctx.overlay;
+    const width = Quagga.canvas.dom.image.width;
+    const height = Quagga.canvas.dom.image.height;
+    const xOffset = 50;
+
+    Quagga.ImageDebug.drawPath(
+      [
+        { x: xOffset, y: height / 2 },
+        { x: width - xOffset, y: height / 2 },
+      ],
+      {
+        x: 'x',
+        y: 'y',
+      },
+      drawingCtx,
+      {
+        color: 'red',
+        lineWidth: 3,
+      }
+    );
   }
 
   stop(): void {
@@ -190,55 +214,6 @@ export class BarcodeScannerLivestreamComponent implements OnChanges, OnDestroy {
     if (this._started) {
       this.stop();
       this.start();
-    }
-  }
-
-  onProcessed(result: QuaggaJSResultObject): any {
-    const drawingCtx = Quagga.canvas.ctx.overlay;
-    const drawingCanvas = Quagga.canvas.dom.overlay;
-
-    if (result) {
-      if (result.boxes) {
-        drawingCtx.clearRect(
-          0,
-          0,
-          parseInt(drawingCanvas.getAttribute('width'), 10),
-          parseInt(drawingCanvas.getAttribute('height'), 10)
-        );
-        result.boxes
-          .filter((box: any) => {
-            return box !== result.box;
-          })
-          .forEach((box: any) => {
-            Quagga.ImageDebug.drawPath(
-              box,
-              {
-                x: 0,
-                y: 1,
-              },
-              drawingCtx,
-              {
-                color: 'green',
-                lineWidth: 2,
-              }
-            );
-          });
-      }
-
-      if (result.box) {
-        Quagga.ImageDebug.drawPath(
-          result.box,
-          {
-            x: 0,
-            y: 1,
-          },
-          drawingCtx,
-          {
-            color: '#00F',
-            lineWidth: 2,
-          }
-        );
-      }
     }
   }
 
