@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { QuaggaJSResultObject } from '@ericblade/quagga2';
 import { BarcodeScannerLivestreamComponent } from 'ngx-barcode-scanner';
-import { ScanFormat } from 'projects/ngx-barcode-scanner/src/enums/ScanFormat.enum';
 
 @Component({
   selector: 'app-barcode-scanner-livestream',
@@ -13,21 +12,6 @@ export class BarcodeScannerLivestreamRouteComponent implements AfterViewInit {
   barcodeScanner: BarcodeScannerLivestreamComponent;
 
   barcodeValue: string;
-
-  type = [
-    ScanFormat.QR_CODE,
-    ScanFormat.CODE_128,
-    ScanFormat.EAN,
-    ScanFormat.EAN_8,
-    ScanFormat.CODE_39,
-    ScanFormat.CODE_39_VIN,
-    ScanFormat.CODABAR,
-    ScanFormat.UPC,
-    ScanFormat.UPC_E,
-    ScanFormat.I2OF5,
-    ScanFormat._2OF5,
-    ScanFormat.CODE_93,
-  ];
 
   ngAfterViewInit(): void {
     this.barcodeScanner.start();
