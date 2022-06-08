@@ -62,7 +62,6 @@ class DataMatrixReader {
           format: this.FORMAT.value,
           decodedCodes: [],
         },
-        // TODO: line: this.calcLine(result.location),
         ...result,
       };
     } catch (e) {

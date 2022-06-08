@@ -95,26 +95,6 @@ export class BarcodeScannerLivestreamComponent implements OnChanges, OnDestroy {
         })
       )
       .subscribe((result) => {
-        const drawingCtx = Quagga.canvas.ctx.overlay;
-
-        // clear canvas
-        const width = Quagga.canvas.dom.image.width;
-        const height = Quagga.canvas.dom.image.height;
-        drawingCtx.clearRect(0, 0, width, height);
-
-        Quagga.ImageDebug.drawPath(
-          result.line,
-          {
-            x: 'x',
-            y: 'y',
-          },
-          drawingCtx,
-          {
-            color: 'red',
-            lineWidth: 3,
-          }
-        );
-
         this.valueChanges.next(result);
       });
   }
