@@ -1,10 +1,10 @@
 {
-  "name": "ngx-barcode-scanner",
-  "version": "0.3.0",
+  "name": "@roux-services/ngx-barcode-scanner",
+  "version": "0.3.3",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/julienboulay/ngx-barcode-scanner.git"
+    "url": "git+https://github.com/Moventeam/ngx-barcode-scanner.git"
   },
   "keywords": [
     "angular",
@@ -26,7 +26,9 @@
   "peerDependencies": {
     "@angular/common": ">=12.0.0",
     "@angular/core": ">=12.0.0",
-    "@ericblade/quagga2": "^1.4.2"
+    "@ericblade/quagga2": "^1.4.2",
+    "@zxing/library": "^0.19.1",
+    "jsqr": "^1.4.0"
   },
   "dependencies": {
     "lodash.defaultsdeep": "^4.6.1"
